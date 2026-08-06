@@ -1,7 +1,8 @@
 from random import *
 
 class Poder:
-    def __init__(self, nivelAtaque: float, nivelDefesa: float) -> None:
+    def __init__(self, nome:str, nivelAtaque: float, nivelDefesa: float) -> None:
+        self.nome = nome;
         self.nivelAtaque = nivelAtaque;
         self.nivelDefesa = nivelDefesa;
 
