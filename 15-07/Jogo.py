@@ -1,4 +1,4 @@
-from random import *
+from random import choice
 
 class Poder:
     def __init__(self, nome:str, nivelAtaque: float, nivelDefesa: float) -> None:
@@ -14,7 +14,7 @@ class Virtude:
 
     @property
     def nome(self) -> str:
-        return __nome
+        return self.__nome
 
 class Personagem:
     def __init__(self, nome: str, life:float) -> None:
@@ -47,7 +47,7 @@ class Personagem:
             return choice(self.poderes)
 
 class Vilao(Personagem):
-    def __init__(self, nome:str, life:float, numeroCrimes) -> None:
+    def __init__(self, nome:str, life:float, numeroCrimes:int) -> None:
         super().__init__(nome, life);
         self.__numeroCrimes = numeroCrimes;
     
@@ -56,15 +56,15 @@ class Vilao(Personagem):
         return self.__numeroCrimes
 
     @numeroCrimes.setter
-    def numeroCrimes(self, numeroCrimes) -> int:
+    def numeroCrimes(self, numeroCrimes:int) -> int:
         if numeroCrimes > self.__numeroCrimes:
             self.__numeroCrimes = numeroCrimes;
         return self.__numeroCrimes
 
-    def usarPoder(self) -> Poder:
-        pV = super().usarPoder();
+    def usarPoder(self, ataque=False, defesa=False) -> Poder:
+        pV = super().usarPoder(ataque, defesa);
         pV.nivelAtaque *= (1 + self.numeroCrimes/100)
-        return p
+        return pV
 
 class Heroi(Personagem):
     def __init__(self, nome:str, life:float, nomeReal:str, nomeParR:str) -> None:
@@ -75,13 +75,14 @@ class Heroi(Personagem):
 
     @property
     def nomeReal(self) -> str:
-        return __nomeReal
+        return self.__nomeReal
 
     def addVirtudes(self, nomeVirtude:str, elemento:str, forca:int) -> None:
         self.listaVirtudes.append(Virtude(nomeVirtude, elemento, forca));
 
-    def usarPoder(self) -> Poder:
-        pH = super().usarPoder;
+    def usarPoder(self, ataque=False, defesa=False) -> Poder:
+        pH = super().usarPoder(ataque, defesa);
+        return pH
 
     def tadeHack(self) -> None:
         pass

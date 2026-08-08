@@ -1,5 +1,8 @@
 from Jogo import *
 listaPersonagens = []
+listaPoderes = []
+listaVirtudes = []
+
 while True:
     print("BEM VINDO AO X1 DE PERSONAGENS!")
     print("1- Criar um personagem")
@@ -43,6 +46,10 @@ while True:
         else:
             for personagem in listaPersonagens:
                 print(f"Nome: {personagem.nome}; Vida: {personagem.life}; Poderes: {personagem.poderes}")
+                if isinstance(personagem, Heroi):
+                    print(f"Nome de herói: {personagem.nome};\n Nome real: {personagem.nomeReal};\n Vida: {personagem.life};\n Par romântico: {personagem.nomeParRomantico};\n Poderes: {personagem.poderes}; Virtudes: {personagem.listaVirtudes}")
+                if isinstance(personagem, Vilao):
+                    print(f"Nome de vilão: {personagem.nome};\n Vida: {personagem.life};\n Número de crimes cometidos: {personagem.numeroCrimes};\n Poderes: {personagem.poderes}")
 
     #Poderes
     elif es == 2:
@@ -50,6 +57,7 @@ while True:
         nA = float(input("Digite o nível de ataque do poder: \n"))
         nD = float(input("Digite o nível de defesa do poder: \n"))
         po = Poder(nP, nA, nD)
+        listaPoderes.append(po)
         print(f"Poder {nP} com ataque {nA:.2f} e defesa {nD:.2f} criado com sucesso!")
         if len(listaPersonagens) == 0:
             print("Crie um personagem para adicionar o poder aqui direto!")
@@ -58,9 +66,48 @@ while True:
             while ap == "s":
                 for personagem in listaPersonagens:
                     print(personagem.nome)
-                pope = input("Para qual personagem você quer colocar o poder? \n")
-                if pope != personagem.nome:
-                    pope = input("Personagem não existe, tente novamente! \n")
-                else:
-                    personagem.addPoder(po)
+                    pope = input("Para qual personagem você quer colocar o poder? \n")
+                    if pope != personagem.nome:
+                        pope = input("Personagem não existe, tente novamente! \n")
+                    else:
+                        personagem.addPoder(po)
                 ap = input("Gotaria de adicionar este poder a um personagem? (s/n)\n")
+    
+    elif es == 6:
+            if len(listaPoderes) == 0:
+                print("Você ainda não criou nenhum poder!\n")
+            else:
+                for poder in listaPoderes:
+                    print(f"Nome: {poder.nome}; Ataque: {poder.nivelAtaque}; Defesa: {poder.nivelDefesa}")
+    
+    #Virtudes
+    elif es == 3:
+        nV = input("Digite o nome da virtude: \n")
+        eV = input("Digite o elemento da virtude: \n")
+        fV = int(input("Digite a força da virtude: \n"))
+        vi = Virtude(nV, eV, fV)
+        listaVirtudes.append(vi)
+        print(f"Virtude {nV} com elemento {eV} e força {fV} criada com sucesso!")
+        if len(listaPersonagens) == 0:
+            print("Crie um personagem para adicionar a virtude aqui direto!")
+        else:
+            av = input("Gotaria de adicionar esta virtude a um herói? (s/n)\n")
+            while av == "s":
+                for personagem in listaPersonagens:
+                    if isinstance(personagem, Heroi):
+                        print(personagem.nome)
+                        vihe = input("Para qual herói você quer colocar a virtude? \n")
+                        if vihe != personagem.nome:
+                            vihe = input("Herói não existe, tente novamente! \n")
+                        else:
+                            personagem.addVirtudes(nV, eV, fV)
+                    else:
+                        print(f"{personagem.nome} não é um herói!")
+                av = input("Gotaria de adicionar esta virtude a um herói? (s/n)\n")
+                
+    elif es == 7:
+            if len(listaVirtudes) == 0:
+                print("Você ainda não criou nenhuma virtude!\n")
+            else:
+                for virtude in listaVirtudes:
+                    print(f"Nome: {virtude.nome}; Elemento: {virtude.elemento}; Força: {virtude.forca}")
