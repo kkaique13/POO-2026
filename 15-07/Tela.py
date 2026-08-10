@@ -111,3 +111,12 @@ while True:
             else:
                 for virtude in listaVirtudes:
                     print(f"Nome: {virtude.nome}; Elemento: {virtude.elemento}; Força: {virtude.forca}")
+
+    #x1
+    elif es == 4:
+        for personagem in listaPersonagens:
+            print(personagem.nome)
+            per1 = input("Insira o nome do primeiro personagem: \n")
+            per2 = input("Insira o nome do segundo personagem: \n")
+            if per1 != personagem.nome or per2 != personagem.nome:
+                print("Personagem inválido! Tente novamente")
