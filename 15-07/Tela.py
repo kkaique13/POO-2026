@@ -120,3 +120,82 @@ while True:
             per2 = input("Insira o nome do segundo personagem: \n")
             if per1 != personagem.nome or per2 != personagem.nome:
                 print("Personagem inválido! Tente novamente")
+        while per1.life == 0.00 or per2.life == 0.00:
+            dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender/Nada)\n")
+            while dec1.lower() != "atacar" or dec1.lower() != "defender" :
+                dec1 = input("Decisão inválida! Digite atacar ou defender):\n")
+            dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender/Nada)\n")
+            while dec2.lower() != "atacar" or dec2.lower() != "defender" :
+                dec2 = input("Decisão inválida! Digite atacar ou defender):\n")
+            
+            #Ataque x Ataque
+            if dec1 == "atacar" and dec2 == "atacar":
+                poper1 = per1.usarPoder(True, False)
+                poper2 = per2.usarPoder(True, False)
+                if poper1 == poper2:
+                    print("Empate! Poder de ataque iguais!\n")
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender" :
+                        dec1 = input("Decisão inválida! Digite atacar ou defender):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender" :
+                        dec2 = input("Decisão inválida! Digite atacar ou defender):\n")
+                elif poper1 > poper2:
+                    per2.life -= poper1.nivelAtaque
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender" :
+                        dec1 = input("Decisão inválida! Digite atacar ou defender):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender" :
+                        dec2 = input("Decisão inválida! Digite atacar ou defender):\n")
+                elif poper2 > poper1:
+                    per1.life -= poper2.nivelAtaque
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender" :
+                        dec1 = input("Decisão inválida! Digite atacar ou defender):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender" :
+                        dec2 = input("Decisão inválida! Digite atacar ou defender):\n")
+            
+            #Ataque x Defesa
+            if dec1 == "Atacar" and dec2 == "Defender":
+                poper1 = per1.usarPoder(True, False)
+                poper2 = per2.usarPoder(False, True)
+                if poper1 > poper2:
+                    per2.life -= poper1.nivelAtaque
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender/Nada)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender":
+                        dec1 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender/Nada)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender":
+                        dec2 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                elif poper2 >= poper1:
+                    print(f"Poder de Ataque muito fraco para dar dano em {per1.nome}!\n")
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender/Nada)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender":
+                        dec1 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender/Nada)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender":
+                        dec2 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+            elif dec1 == "Defender" and dec2 == "Atacar":
+                poper1 = per1.usarPoder(False, True)
+                poper2 = per2.usarPoder(True, False)
+                if poper2 > poper1:
+                    per1.life -= poper2.nivelAtaque
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender/Nada)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender":
+                        dec1 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender/Nada)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender":
+                        dec2 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                elif poper1 >= poper2:
+                    print(f"Poder de Ataque muito fraco para dar dano em {per1.nome}!\n")
+                    dec1 = input("Qual vai ser a decisão do Jogador 1? (Atacar/Defender/Nada)\n")
+                    while dec1.lower() != "atacar" or dec1.lower() != "defender":
+                        dec1 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+                    dec2 = input("Qual vai ser a decisão do Jogador 2? (Atacar/Defender/Nada)\n")
+                    while dec2.lower() != "atacar" or dec2.lower() != "defender":
+                        dec2 = input("Decisão inválida! Digite atacar ou defender ou nada):\n")
+            
+            #Defesa x Defesa
+            #Fazer ainda

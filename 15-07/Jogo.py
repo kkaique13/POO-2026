@@ -27,7 +27,7 @@ class Personagem:
 
     def usarPoder(self, ataque=False, defesa=False) -> Poder:
         if len(self.poderes) == 0:
-            return None
+            pass
 
         elif ataque:
             escolhido_ataque = self.poderes[0];
