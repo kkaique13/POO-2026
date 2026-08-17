@@ -39,7 +39,10 @@ while aux is not None:
 mostrarLista(inicio)
 
 numExcluir = int(input("Qual número excluir? "))
-while True:
-    if inicio is not None and inicio.valor == numExcluir:
-        inicio = inicio.setinha
-aux = 
+while inicio is not None and inicio.valor == numExcluir:
+    inicio = inicio.setinha
+aux = inicio
+if aux is not None:
+    while aux.setinha is not None and aux.setinha.valor == numExcluir:
+        aux.setinha = aux.setinha.setinha
+mostrarLista(inicio)
