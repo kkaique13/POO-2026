@@ -2,24 +2,10 @@
 from Circulo import Circulo
 from Quadrado import Quadrado
 from func import limpar_terminal
-from typing import cast
-import os
-from dotenv import load_dotenv
-#Lendo as variáveis de ambiente
-load_dotenv()
-host = cast(str, os.getenv("DB_HOST"))
-user = cast(str, os.getenv("DB_USER"))
-password = cast(str, os.getenv("DB_PASSWORD"))
-database = cast(str, os.getenv("DB_NAME"))
 
-if not all([host, user, password, database]):
-    raise ValueError("Uma ou mais variáveis do .env não foram configuradas.")
+from conexao import conectar
 
-#Importando a biblioteca para conectar o python com o banco de dados
-import pymysql as MySQLdb
-#Conectando o python com o banco de dados
-conexao = MySQLdb.connect(host=host, user=user, password=password, database=database)
-#Permitindo que o python possa mudar as coisas no banco de dados
+conexao = conectar()
 banco = conexao.cursor()
 
 if __name__ == "__main__":
