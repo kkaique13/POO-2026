@@ -1,11 +1,13 @@
-#Importando as classes e função limpar terminal
+#Importando as classes, função limpar terminal e conexão com o banco de dados
 from Circulo import Circulo
 from Quadrado import Quadrado
 from func import limpar_terminal
-
 from conexao import conectar
 
+#Conectando o python com o banco de dados
 conexao = conectar()
+
+#Permitindo que o python possa mudar as coisas no banco de dados
 banco = conexao.cursor()
 
 if __name__ == "__main__":
