@@ -3,6 +3,7 @@ from Circulo import Circulo
 from Quadrado import Quadrado
 from func import limpar_terminal
 from conexao import conectar
+import pymysql
 
 #Conectando o python com o banco de dados
 conexao = conectar()
@@ -13,7 +14,14 @@ banco = conexao.cursor()
 if __name__ == "__main__":
     limpar_terminal()
     figuras = {}
-    numFigura = 1
+    # Busca o maior número já cadastrado no banco e soma 1
+    banco.execute("select coalesce(max(numero), 0) + 1 from Figura;")
+    resultado = banco.fetchone()
+    if resultado:
+        numFigura = int(resultado[0])
+    else:
+        numFigura = 1
+    
     print("CADASTRO DE FIGURAS\n")
     resposta = input("Deseja cadastrar uma figura? (s/n)\n")
     while resposta.lower() == "s":
@@ -31,12 +39,11 @@ if __name__ == "__main__":
                         continue
                     
                     figuras[f"Figura {numFigura}"] = Circulo(corFigura, medida)
-                    banco.execute(f"insert into Figura values ({numFigura}, '{corFigura}');")
-                    banco.execute(f"insert into Circulo values ({numFigura}, {medida:.2f});")
-                    banco.execute("commit;")
+                    banco.execute("insert into Figura values (%s, %s, %s);", (numFigura, "Círculo", corFigura))
+                    banco.execute("insert into Circulo values (%s, %s);", (numFigura, medida))
+                    conexao.commit()
                     numFigura += 1
                 except ValueError:
-                    limpar_terminal()
                     print("Valor inválido! Digite um número real!")
                     continue
                 
@@ -51,10 +58,11 @@ if __name__ == "__main__":
                         continue
                     
                     figuras[f"Figura {numFigura}"] = Quadrado(corFigura, medida)
-                    banco.execute(f"insert into Figura values ({numFigura}, {medida:.2f});")
+                    banco.execute("insert into Figura values (%s, %s, %s);", (numFigura, "Quadrado", corFigura))
+                    banco.execute("insert into Quadrado values (%s, %s);", (numFigura, medida))
+                    conexao.commit()
                     numFigura += 1
                 except ValueError:
-                    limpar_terminal()
                     print("Valor inválido! Digite um número real!")
                     continue
                 
@@ -67,9 +75,32 @@ if __name__ == "__main__":
         resposta = input("Deseja cadastrar uma figura? (s/n)\n")
         limpar_terminal()
     
-    #Retornando os dados
-    for chave in figuras:
-        print(figuras[chave].retornarDados())
-    
+    try:
+        banco.execute("""select f.numero, f.nomFigura, f.cor, c.raio
+                        from Figura f, Circulo c
+                        where f.numero = c.numFigura
+                        union
+                        select f.numero, f.nomFigura, f.cor, q.lado
+                        from Figura f, Quadrado q
+                        where f.numero = q.numFigura;""")
+        
+        for linha in banco.fetchall():
+            valor = float(linha[3]) if linha[3] is not None else 0.0
+            if linha[1].lower() == "círculo":
+                print(f"Numero {linha[0]} | Figura: {linha[1]} | Cor: {linha[2]} | Raio: {valor:.2f}")
+            elif linha[1].lower() == "quadrado":
+                print(f"Numero {linha[0]} | Figura: {linha[1]} | Cor: {linha[2]} | Lado: {valor:.2f}")
+        
+    except pymysql.err.ProgrammingError as e:
+        print(f"Erro de SQL ao consultar o banco: {e}")
+        print("Procure o administrador!")
+        
+    except pymysql.err.OperationalError as e:
+        print(f"Erro de conexão com o banco: {e}")
+        
+    except pymysql.err.MySQLError as e:
+        print(f"Erro ao consultar o banco de dados: {e}")
+        
     #Fechando o banco de dados
+    banco.close()
     conexao.close()

@@ -14,9 +14,6 @@ password = cast(str, os.getenv("DB_PASSWORD"))
 database = cast(str, os.getenv("DB_NAME"))
 
 #Verificando se todas as informações foram carregadas corretamente
-if not all([host, user, password, database]):
-    raise ValueError("Uma ou mais variáveis do .env não foram configuradas.")
-
 assert host is not None and user is not None and password is not None and database is not None
 
 #Função para conectar o python com o banco de dados
